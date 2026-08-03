@@ -1,0 +1,7 @@
+What did you build?
+
+I implemented an automated Kubernetes deployment workflow using Terraform, Ansible, and Minikube. Terraform was used to provision the Kubernetes namespace, while Ansible automated the application deployment process. Ansible built a Docker image from my existing Java application, loaded it into the Minikube cluster, generated Kubernetes Deployment and Service manifests from templates, and deployed the application into the created namespace. Finally, the deployment was verified by checking the pod status and accessing the application through a Kubernetes NodePort service.
+
+What did you learn?
+
+This was my first project combining Terraform, Ansible, and Kubernetes. I learned how Terraform can provision Kubernetes resources declaratively and how Ansible can automate deployment tasks that would otherwise be performed manually. I also learned how to package a Java application into a Docker image, deploy it on Kubernetes, use Jinja2 templates to generate Kubernetes manifests dynamically, and verify the deployment using kubectl. Although the original task referenced AWS EKS, I completed the same deployment workflow using Minikube to gain practical experience with Kubernetes in a local environment while applying the same Infrastructure as Code and automation concepts.

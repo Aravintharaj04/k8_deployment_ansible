@@ -1,0 +1,41 @@
+---
+- name: Deploy Java application to Minikube
+  hosts: localhost
+  connection: local
+
+  vars:
+    image_name: java-app
+    image_tag: latest
+    namespace: java-app
+
+  tasks:
+
+    - name: Build Docker image
+      command:
+        cmd: docker build -t {{ image_name }}:{{ image_tag }} .
+
+    - name: Load image into Minikube
+      command:
+        cmd: minikube image load {{ image_name }}:{{ image_tag }}
+
+    - name: Generate Deployment Manifest
+      template:
+        src: templates/deployment.yaml.j2
+        dest: generated/deployment.yaml
+
+    - name: Generate Service Manifest
+      template:
+        src: templates/service.yaml.j2
+        dest: generated/service.yaml
+
+    - name: Apply Deployment
+      command:
+        cmd: kubectl apply -f generated/deployment.yaml
+
+    - name: Apply Service
+      command:
+        cmd: kubectl apply -f generated/service.yaml
+
+    - name: Wait for Deployment
+      command:
+        cmd: kubectl rollout status deployment/java-app -n {{ namespace }}
