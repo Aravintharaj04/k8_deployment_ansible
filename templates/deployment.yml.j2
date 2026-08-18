@@ -34,3 +34,17 @@ spec:
         ports:
 
         - containerPort: {{ container_port }}
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ container_port }}
+          initialDelaySeconds: 20
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ container_port }}
+          initialDelaySeconds: 30
+          periodSeconds: 15

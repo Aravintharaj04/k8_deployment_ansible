@@ -1,9 +1,9 @@
-namespace: java-app
+FROM amazoncorretto:17-alpine-jdk
 
-image_name: java-app
+WORKDIR /app
 
-image_tag: latest
+COPY target/*.jar app.jar
 
-container_port: 8080
+EXPOSE 8080
 
-service_port: 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]

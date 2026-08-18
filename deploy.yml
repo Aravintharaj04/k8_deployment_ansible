@@ -3,12 +3,15 @@
   hosts: localhost
   connection: local
 
-  vars:
-    image_name: java-app
-    image_tag: latest
-    namespace: java-app
+  vars_files:
+    - vars.yml
+
 
   tasks:
+
+    - name: Build Java application
+      command:
+        cmd: mvn clean package -DskipTests
 
     - name: Build Docker image
       command:
@@ -20,21 +23,21 @@
 
     - name: Generate Deployment Manifest
       template:
-        src: templates/deployment.yaml.j2
-        dest: generated/deployment.yaml
+        src: templates/deployment.yml.j2
+        dest: generated/deployment.yml
 
     - name: Generate Service Manifest
       template:
-        src: templates/service.yaml.j2
-        dest: generated/service.yaml
+        src: templates/service.yml.j2
+        dest: generated/service.yml
 
     - name: Apply Deployment
       command:
-        cmd: kubectl apply -f generated/deployment.yaml
+        cmd: kubectl apply -f generated/deployment.yml
 
     - name: Apply Service
       command:
-        cmd: kubectl apply -f generated/service.yaml
+        cmd: kubectl apply -f generated/service.yml
 
     - name: Wait for Deployment
       command:
